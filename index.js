@@ -39,7 +39,10 @@ function fetchFollowerIds(username, cursor, currentIds, callback) {
 }
 
 app.get('/followers-csv', function (req, res) {
-    req.setTimeout(0);
+    res.type(".csv");
+    res.attachment(req.query.username + "_followers_blocklist.csv");
+    res.writeHead(200);
+    res.connection.setTimeout(0);
 
     fetchFollowerIds(req.query.username, -1, [], function(ids) {
         formatted = '';
@@ -47,12 +50,11 @@ app.get('/followers-csv', function (req, res) {
         for(var i=0; i<ids.length; i++) {
             formatted += ids[i] + "\r\n";
         }
-        res.type(".csv");
-        res.attachment(req.query.username + "_followers_blocklist.csv");
+
         res.send(formatted);
     });
 });
 
-app.listen(4000, function () {
-    console.log('FakeFakeBlock listening on port 4000!')
+app.listen(process.env.PORT || 4000, function () {
+    console.log("FakeFakeBlock listening on port " + (process.env.PORT || 4000) + "!")
 });

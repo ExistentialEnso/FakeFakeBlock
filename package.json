@@ -8,6 +8,7 @@
   },
   "author": "Thorne N. Melcher",
   "dependencies": {
+    "express": "^4.15.5",
     "express-csv": "^0.6.0",
     "twitter": "^1.7.1"
   }
