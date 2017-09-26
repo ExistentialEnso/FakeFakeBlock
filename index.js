@@ -51,7 +51,7 @@ app.get('/followers-csv', function (req, res) {
             formatted += ids[i] + "\r\n";
         }
 
-        res.send(formatted);
+        res.end(formatted);
     });
 });
 
