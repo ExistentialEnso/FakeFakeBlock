@@ -6,11 +6,11 @@ Dead simple utility for pulling someone's followers as a block list.
 
 Make sure you have Node installed and download this and open the command line in the folder and type:
 
-node index.js -u <username>
+    node index.js -u <username>
 
 e.g.
 
-node index.js -u existentialenso
+    node index.js -u existentialenso
 
 If it hits a rate limit, it will wait 15 minutes.
 
