@@ -1,14 +1,6 @@
-#!/usr/bin/env node
-const program = require('commander');
-const fs = require('fs');
 const Twitter = require("twitter");
-
-program
-    .version('0.1.0')
-    .option('-u, --username [username]', 'Username')
-    .parse(process.argv);
-
-console.log("Fetching followers for: " + program.username);
+const express = require('express'), csv = require("express-csv");
+const app = express();
 
 var client = new Twitter({
     consumer_key: 'wMeDS3fHFxC3vvx0R8uY7JMCh',
@@ -46,18 +38,23 @@ function fetchFollowerIds(username, cursor, currentIds, callback) {
     });
 }
 
-fetchFollowerIds(program.username, -1, [], function(ids) {
-    formatted = '';
+app.get('/followers-csv', function (req, res) {
+    res.type(".csv");
+    res.attachment(req.query.username + "_followers_blocklist.csv");
+    res.writeHead(200);
+    res.connection.setTimeout(0);
 
-    for(var i=0; i<ids.length; i++) {
-        formatted += ids[i] + "\r\n";
-    }
+    fetchFollowerIds(req.query.username, -1, [], function(ids) {
+        formatted = '';
 
-    fs.writeFile(program.username + "_block_list.csv", formatted, function(err) {
-        if(err) {
-            return console.log(err);
+        for(var i=0; i<ids.length; i++) {
+            formatted += ids[i] + "\r\n";
         }
 
-        console.log("The file was saved to: " + program.username + "_block_list.csv");
+        res.end(formatted);
     });
+});
+
+app.listen(process.env.PORT || 4000, function () {
+    console.log("FakeFakeBlock listening on port " + (process.env.PORT || 4000) + "!")
 });
