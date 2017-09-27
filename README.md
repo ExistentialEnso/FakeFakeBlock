@@ -16,4 +16,4 @@ If it hits a rate limit, it will wait 15 minutes.
 
 Once it's done, it will save it to 
 
-    <username>_block_list.json
+    <username>_block_list.csv
